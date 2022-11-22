@@ -9,8 +9,6 @@ public class App {
         System.out.println("SALIDA PARA LOCALHOST: ");
 
 
-
-
         try {
             dir=InetAddress.getByName("LAPTOP-635RC3G7");
             pruebaMetodos(dir);
@@ -21,7 +19,6 @@ public class App {
             dir=InetAddress.getByName("www.youtube.com");
             pruebaMetodos(dir);
 
-
             //array de inetadress
 
             System.out.println("\tDIRECCIONES IP PARA: " + dir.getHostName());
@@ -30,12 +27,10 @@ public class App {
                 System.out.println(direcciones[i].toString());
                 System.out.println("================");
 
-
             }
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     private static void pruebaMetodos(InetAddress dir) {
