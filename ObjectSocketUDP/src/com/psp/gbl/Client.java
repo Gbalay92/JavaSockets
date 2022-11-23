@@ -7,10 +7,10 @@ import java.net.*;
 public class Client {
     public static void main(String[] args) {
         Persona person = new Persona("Gonzalo", 30);
-        DatagramSocket socketUdp = null;
+
 
         try {
-            socketUdp=new DatagramSocket();
+            DatagramSocket  socketUdp=new DatagramSocket();
             InetAddress host=InetAddress.getByName("localhost");
             int port=49171;
             DatagramPacket envio;
