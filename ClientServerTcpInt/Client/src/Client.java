@@ -1,3 +1,4 @@
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -19,9 +20,13 @@ public class Client {
                 dos.writeInt(numero);
             }
 
+            DataInputStream in = new DataInputStream(client.getInputStream());
+            System.out.println("El numero mayor es: " + in.readInt());
+            System.out.println("la suma de los numeros es: " + in.readInt());
+            System.out.println("son numeros primos: "+ in.readUTF());
 
-        dos.close();
-        client.close();
+            dos.close();
+            client.close();
 
         } catch (IOException e) {
             throw new RuntimeException(e);

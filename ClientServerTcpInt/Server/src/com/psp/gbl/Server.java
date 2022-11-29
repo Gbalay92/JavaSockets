@@ -1,11 +1,16 @@
 package com.psp.gbl;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class Server {
     private static ArrayList<Integer> numbers = new ArrayList<Integer>();
@@ -29,11 +34,28 @@ public class Server {
                 numeros[i]=numbers.get(i);
             }
 
-            new Thread((new Suma(numeros))).start();
-            new Thread((new Mayor(numeros))).start();
-            new Thread((new Primo(numeros))).start();
+            Mayor mayor=new Mayor(numeros);
+            ExecutorService servicio= Executors.newSingleThreadExecutor();
+            Future<Integer> resultado= servicio.submit(mayor);
+            System.out.println("server: " +resultado.get());
+
+            Suma suma = new Suma(numeros);
+            ExecutorService servicio1= Executors.newSingleThreadExecutor();
+            Future<Integer> resultado1= servicio1.submit(suma);
+            System.out.println("server: " +resultado1.get());
+
+            Primo primo = new Primo(numeros);
+            ExecutorService servicio2= Executors.newSingleThreadExecutor();
+            Future<String> resultado2= servicio2.submit(primo);
+            System.out.println("server: " + resultado2.get());
+
+            DataOutputStream out =new DataOutputStream(client.getOutputStream());
+            out.writeInt(resultado.get());
+            out.writeInt(resultado1.get());
+            out.writeUTF(resultado2.get());
 
 
+            out.close();
             di.close();
             entrada.close();
             client.close();
@@ -43,6 +65,10 @@ public class Server {
 
 
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 

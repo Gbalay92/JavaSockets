@@ -1,22 +1,15 @@
 package com.psp.gbl;
 
-public class Primo implements Runnable{
-    int[] numeros=new int[5];
-    public Primo(int[] numeros){
-        this.numeros=numeros;
+import java.util.concurrent.Callable;
+
+public class Primo implements Callable<String> {
+    int[] numeros = new int[5];
+
+    public Primo(int[] numeros) {
+        this.numeros = numeros;
 
     }
 
-
-    @Override
-    public void run() {
-        for (int numero : numeros){
-            if(esPrimo(numero)){
-                System.out.println("El "+ numero +" es primo");
-            }
-        }
-
-    }
     public static boolean esPrimo(int numero) {
         // El 0, 1 y 4 no son primos
         if (numero == 0 || numero == 1 || numero == 4) {
@@ -32,4 +25,17 @@ public class Primo implements Runnable{
         return true;
     }
 
+    @Override
+    public String call() throws Exception {
+        String linea = "";
+        for (int numero : numeros) {
+            if (esPrimo(numero)) {
+                System.out.println("El " + numero + " es primo");
+                linea += numero + " ";
+            }
+        }
+                return linea;
+
+
+    }
 }
