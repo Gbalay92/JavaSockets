@@ -2,6 +2,7 @@ package com.psp.gbl;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import java.net.ServerSocket;
@@ -26,11 +27,17 @@ public class Client {
             ObjectOutputStream salida= new ObjectOutputStream(client.getOutputStream());
             salida.writeObject(cont);
 
+            ObjectInputStream in= new ObjectInputStream(client.getInputStream());
+            Contenedor mayor= (Contenedor) in.readObject();
+            System.out.println("el numero mayor recibido del servido es "+mayor.getNumbers().toString());
 
-        salida.close();
-        client.close();
+
+            salida.close();
+            client.close();
 
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

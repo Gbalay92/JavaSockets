@@ -1,6 +1,8 @@
 package com.psp.gbl;
 
-public class Mayor implements Runnable{
+import java.util.concurrent.Callable;
+
+public class Mayor implements Callable<Contenedor> {
     int[] numeros=new int[5];
     public Mayor(int[] numeros){
         this.numeros=numeros;
@@ -8,8 +10,10 @@ public class Mayor implements Runnable{
     }
 
 
+
+
     @Override
-    public void run() {
+    public Contenedor call() throws Exception {
         int mayor=0;
         for(int numero : numeros){
             if(numero>mayor){
@@ -17,5 +21,8 @@ public class Mayor implements Runnable{
             }
         }
         System.out.println("el numero mayor es: "+ mayor);
+        int numbers[] = new int[1];
+        numbers[0]=mayor;
+        return new Contenedor(numbers);
     }
 }
